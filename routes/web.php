@@ -31,9 +31,17 @@ Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
     Route::post('/pos', [PosController::class, 'store'])->name('pos.store');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/riwayat', function () {
+    return 'Halaman Riwayat Transaksi';
+})->name('pos.history');
 
 
 
