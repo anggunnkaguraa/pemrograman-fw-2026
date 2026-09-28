@@ -17,5 +17,10 @@ class Product extends Model
     {
         return $this->hasMany(TransactionDetail::class);
     }
+
+    public function getHargaRupiahAttribute()
+    {
+        return 'Rp ' . number_format($this->price, 0, ',', '.');
+    }
 }
 

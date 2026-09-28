@@ -19,6 +19,7 @@ return new class extends Migration
         $table->string('unit')->default('pcs');
         $table->unsignedBigInteger('price');
         $table->unsignedInteger('stock')->default(0);
+        $table->timestamps();
         });
     }
 
