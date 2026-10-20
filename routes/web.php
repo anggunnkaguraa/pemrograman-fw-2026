@@ -43,6 +43,7 @@ Route::get('/riwayat', function () {
     return 'Halaman Riwayat Transaksi';
 })->name('pos.history');
 
+Route::resource('categories', CategoryController::class);
 
 
 
