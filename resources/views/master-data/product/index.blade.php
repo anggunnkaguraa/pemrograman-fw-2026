@@ -12,6 +12,26 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-card>
+                
+            <form method="GET" action="{{ route('products.index') }}" class="flex gap-3 mb-4">
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Cari nama atau kode produk..."
+                    class="flex-1 rounded-md border-gray-300 shadow-sm">
+            
+                <select name="category_id" class="rounded-md border-gray-300">
+                    <option value="">Semua Kategori</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected(request('category_id') == $category->id)>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md">Cari</button>
+                <a href="{{ route('products.index') }}" class="px-4 py-2 text-gray-500">Reset</a>
+            </form>
+
+
                 @if (session('success'))
                     <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-md text-sm">
                         {{ session('success') }}
@@ -48,6 +68,13 @@
                                 </td>
                                 <td class="px-4 py-2 text-sm text-center space-x-2">
                                     <a href="{{ route('products.edit', $product) }}" class="text-indigo-600">Ubah</a>
+                                    
+                                        <form action="{{ route('products.destroy', $product) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus produk {{ $product->name }}?')" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600">Hapus</button>
+                                        </form>
                                 </td>
                             </tr>
                         @empty
