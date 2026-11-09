@@ -19,10 +19,10 @@ Route::post('/login', [LoginController::class, 'store'])
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
-    //Route::get('/reports/sales', [ReportController::class, 'sales'])->name('report.sales');
     Route::resource('users', UserController::class);
 });
 
@@ -31,16 +31,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/reports/sales/export', [ReportController::class, 'export'])->name('report.export');
 });
 
-
 Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
     Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
     Route::post('/pos', [PosController::class, 'store'])->name('pos.store');
     Route::get('/pos/{transaction}/struk', [PosController::class, 'struk'])->name('pos.struk');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/dashboard', [ReportController::class, 'dashboard'])
+    ->middleware('auth')
+    ->name('dashboard');
 
 Route::get('/', function () {
     return view('welcome');
